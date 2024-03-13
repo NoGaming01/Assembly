@@ -1,19 +1,18 @@
-; First time writing code in Assembly
+section .data
+msg: DB 'Hello World!', 10
+msgSize EQU $ - msg
 
-section        .text                   ; declare the .text section
-global         _start                  ; delcare start
-_start:                                ; entry point
-    mov edx, len
-    mov ecx, msg
+global start
 
-    mov ebx, 1
+section .text
 
-    mov eax, 4
+    start:
+    mov rax, 0x2000004          ; function 4
+    mov rbx, 1          ; stdout
+    mov rcx, msg        ; msg
+    mov rdx, msgSize    ; size
     int 0x80
-
-    mov eax, 1
+    mov rax, 1          ; function 1
+    mov rbx, 0          ; code
     int 0x80
-
-section        .data                   ; declare the .data section
-    msg        db "Hello, World!"      ; The message
-    len        equ $ -msg
+    ret
